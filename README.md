@@ -1,37 +1,87 @@
-## Welcome to GitHub Pages
+# Agrudados
 
-You can use the [editor on GitHub](https://github.com/Vincius-C-Castro/Agrudados/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Aplicação desktop em Java Swing para o cálculo e a visualização de **estatística descritiva de dados agrupados e não agrupados**. O usuário informa um conjunto de valores e o programa calcula as medidas de tendência central e de dispersão, monta a tabela de distribuição de frequências e gera gráficos (histograma, polígono de frequências e ogiva).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+O nome vem de *"(dados) agrupados"*.
 
-### Markdown
+## Funcionalidades
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Medidas de tendência e dispersão
+- **Central:** média, moda (identificando conjuntos amodais, bimodais e multimodais) e mediana.
+- **Dispersão:** desvio médio, variância, desvio padrão, amplitude e coeficiente de variação.
+- Suporte a conjunto **amostral** (denominador `n - 1`) e **populacional** (denominador `n`).
+- Entrada dos valores por tabela editável, com opções de alterar, excluir, ordenar e apagar o conjunto.
 
-```markdown
-Syntax highlighted code block
+### Análise de dados / distribuição de frequências
+- Montagem automática da tabela de distribuição de frequências:
+  - número de classes pela regra de Sturges (`1 + 3,3 · log₁₀ n`);
+  - intervalo de classe, ponto médio, frequência simples e acumulada, frequência relativa (absoluta) e frequência relativa acumulada.
+- Gráficos gerados com JFreeChart:
+  - **Histograma** (frequência ou frequência relativa);
+  - **Polígono de frequências**;
+  - **Ogiva** (frequência acumulada).
 
-# Header 1
-## Header 2
-### Header 3
+### Fórmulas
+- Tela de referência com a definição, a fórmula e um exemplo resolvido de cada medida.
 
-- Bulleted
-- List
+## Tecnologias
 
-1. Numbered
-2. List
+- **Java 8** (`source`/`target` 1.8)
+- **Swing** para a interface (Look and Feel Nimbus)
+- **NetBeans** — projeto Ant (`build.xml` / `nbproject/`), com telas construídas no GUI Builder (`.form`)
+- **[JFreeChart 1.5.0](https://www.jfree.org/jfreechart/)** para os gráficos
+- Bibliotecas Swing Layout Extensions e AbsoluteLayout (fornecidas pelo NetBeans)
 
-**Bold** and _Italic_ and `Code` text
+## Estrutura do projeto
 
-[Link](url) and ![Image](src)
+```
+Agrudados/
+├── build.xml, manifest.mf, nbproject/   → configuração do projeto NetBeans/Ant
+├── Pacote de Icones/                     → ícones usados na interface
+└── src/
+    ├── agrudados/            → telas Swing
+    │   ├── TelaInicial            (janela principal / menu)
+    │   ├── TelaMedidasDeTendencia (entrada de dados + medidas central/dispersão)
+    │   ├── TelaAnaliseDeDados     (tabela de frequências + gráficos)
+    │   └── TelaFormulas          (referência de fórmulas)
+    ├── estatistica/         → lógica dos cálculos
+    │   ├── Calculos              (classe base: dados de entrada e resultados)
+    │   ├── Central              (média, moda, mediana)
+    │   ├── Dispersao            (desvio médio, variância, desvio padrão, amplitude, CV)
+    │   └── DistribuicaoDeFrequencias (classes, intervalos, frequências, ponto médio)
+    ├── modelostabelas/      → modelos das JTable (ElementosModel, elementos)
+    └── imagens/             → ícones e imagens de fundo
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+`main.class`: `agrudados.TelaInicial`
 
-### Jekyll Themes
+## Como compilar e executar
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Vincius-C-Castro/Agrudados/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Pré-requisitos
+- JDK 8 ou superior
+- Apache Ant (ou o NetBeans, que já o inclui)
+- `jfreechart-1.5.0.jar` — o projeto espera o arquivo **um nível acima** da pasta `Agrudados/`
+  (referência em `nbproject/project.properties`: `..\jfreechart-1.5.0.jar`)
 
-### Support or Contact
+### Pelo NetBeans
+Abra a pasta `Agrudados/` como projeto e use **Run** (F6). Ajuste a referência da biblioteca JFreeChart caso o NetBeans peça.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Pela linha de comando
+```sh
+cd Agrudados
+ant clean jar
+java -jar dist/Agrudados.jar
+```
+
+## Observações
+
+- Os cálculos assumem que o conjunto de dados foi informado em **ordem crescente** (mediana, amplitude e montagem das classes dependem disso); use a opção *Ordenar tabela* antes de calcular.
+- O arquivo `.gitignore` contém marcadores de conflito de merge não resolvidos que devem ser limpos.
+
+## Licença
+
+Domínio público — veja [LICENSE](LICENSE) ([Unlicense](http://unlicense.org)).
+
+## Autor
+
+Vinicius Cardoso de Castro
