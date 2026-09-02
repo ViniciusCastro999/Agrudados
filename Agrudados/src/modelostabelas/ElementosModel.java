@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package modelostabelas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -14,7 +14,11 @@ import javax.swing.table.AbstractTableModel;
 public class ElementosModel extends AbstractTableModel{
     
     private final List<elementos> dados = new ArrayList<>();
-    private final String[] colunas = {"Elementos ( X )"};
+    private final String[] colunas;
+
+    public ElementosModel(String[] colunas) {
+        this.colunas = colunas;
+    }
 
     @Override
     public String getColumnName(int column) {
@@ -52,7 +56,7 @@ public class ElementosModel extends AbstractTableModel{
                 dados.get(linha).setNumeros(Double.parseDouble((String)valor));
                 break;
        } 
-      this.fireTableRowsUpdated(linha, linha);
+      this.fireTableRowsUpdated(linha, coluna);
     }
     
     
@@ -66,12 +70,5 @@ public class ElementosModel extends AbstractTableModel{
      this.dados.remove(linha);
      this.fireTableRowsDeleted(linha, linha);
     
-    }
-    public void calculo(){
-     
-   
-        
-    }
-    
-    
+    }  
 }

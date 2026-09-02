@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package modelostabelas;
 
 /**
  *
@@ -17,6 +17,15 @@ public class elementos {
     private  double desviomedio;
     private  double variancia;
     private  double desviopadrao;
+    private  String textoIntervalo;
+
+    public String getTextoIntervalo() {
+        return textoIntervalo;
+    }
+
+    public void setTextoIntervalo(String textoIntervalo) {
+        this.textoIntervalo = textoIntervalo;
+    }
 
     public double getMedia() {
         return media;

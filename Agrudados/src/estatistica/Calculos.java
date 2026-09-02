@@ -28,13 +28,22 @@ public class Calculos {
     private static double amplitude;
     private static double coeficienteVariacao;
 
+    // Atributos utilizados nos cálculos da distribuição de frequências.
+    private static int numClasses;
+    private static double intervalo;
+    private static double[] frequencias;
+    private static double[] frequenciasAcumuladas;
+    private static double[] frequenciaAbsoluta;
+    private static double[] frequenciaAbsolutaAcumulada;
+    private static double[] mediaClasses;
 
     /**
      * Classe inicializadora dos dados necessários para realizar os cálculos.
+     *
      * @param conjunto : Vetor contendo todos elementos do conjunto.
      * @param isAmostral : Boolean que indica se o conjunto é amostral ou
      * populacional.
-     * 
+     *
      * Obs.: Este método executa os cálculos automáticamente.
      */
     public void iserirDados(double conjunto[], boolean isAmostral) {
@@ -43,23 +52,46 @@ public class Calculos {
         calcularTudo();
     }
 
+    /**
+     * Realiza todos os cálculos.
+     */
     private void calcularTudo() {
-        
+
         Central medidasCentral = new Central();
         Dispersao medidasDispersao = new Dispersao();
-        
+        DistribuicaoDeFrequencias distFreq = new DistribuicaoDeFrequencias();
+
         // Realiza os cálculos das medidas centrais.
         medidasCentral.calcular();
         // Realiza os cálculos das medidas de dispersao.
         medidasDispersao.calcular();
+
+        /**
+         * Realiza os cálculos para montagem da tabela de distribuição de
+         * frequências.
+         */
+        distFreq.calcular();
+
     }
 
+    /**
+     * Método responsável por definir a quantidade de casas decimais.
+     * Define o máximo de casas decimais para 3.
+     * @param value
+     * @return 
+     */
+    public static double truncate(double value) {
+        double valorArredondado = Math.round(value * 1000) / 1000d;
+        return valorArredondado;
+    }
+
+    // Getters e Setters da classe.
     public void setConjunto(double[] conjunto) {
-        this.conjunto = conjunto;
+        Calculos.conjunto = conjunto;
     }
 
     public double[] getConjunto() {
-        return this.conjunto;
+        return Calculos.conjunto;
     }
 
     public double getMedia() {
@@ -67,7 +99,7 @@ public class Calculos {
     }
 
     public void setMedia(double media) {
-        this.media = media;
+        Calculos.media = media;
     }
 
     public double getMediana() {
@@ -75,7 +107,7 @@ public class Calculos {
     }
 
     public void setMediana(double mediana) {
-        this.mediana = mediana;
+        Calculos.mediana = mediana;
     }
 
     public double getModa() {
@@ -83,7 +115,7 @@ public class Calculos {
     }
 
     public void setModa(double moda) {
-        this.moda = moda;
+        Calculos.moda = moda;
     }
 
     public int getIndiceModa() {
@@ -91,7 +123,7 @@ public class Calculos {
     }
 
     public void setIndiceModa(int indiceModa) {
-        this.indiceModa = indiceModa;
+        Calculos.indiceModa = indiceModa;
     }
 
     public double getVariancia() {
@@ -99,7 +131,7 @@ public class Calculos {
     }
 
     public void setVariancia(double variancia) {
-        this.variancia = variancia;
+        Calculos.variancia = variancia;
     }
 
     public double getDesvioMedio() {
@@ -107,7 +139,7 @@ public class Calculos {
     }
 
     public void setDesvioMedio(double desvioMedio) {
-        this.desvioMedio = desvioMedio;
+        Calculos.desvioMedio = desvioMedio;
     }
 
     public double getDesvioPadrao() {
@@ -115,7 +147,7 @@ public class Calculos {
     }
 
     public void setDesvioPadrao(double desvioPadrao) {
-        this.desvioPadrao = desvioPadrao;
+        Calculos.desvioPadrao = desvioPadrao;
     }
 
     public boolean isConjuntoAmostral() {
@@ -123,7 +155,7 @@ public class Calculos {
     }
 
     public void setConjuntoAmostral(boolean conjuntoAmostral) {
-        this.conjuntoAmostral = conjuntoAmostral;
+        Calculos.conjuntoAmostral = conjuntoAmostral;
     }
 
     public double getAmplitude() {
@@ -131,7 +163,7 @@ public class Calculos {
     }
 
     public void setAmplitude(double amplitude) {
-        this.amplitude = amplitude;
+        Calculos.amplitude = amplitude;
     }
 
     public double getCoeficienteVariacao() {
@@ -139,7 +171,63 @@ public class Calculos {
     }
 
     public void setCoeficienteVariacao(double coeficienteVariacao) {
-        this.coeficienteVariacao = coeficienteVariacao;
+        Calculos.coeficienteVariacao = coeficienteVariacao;
+    }
+
+    public int getNumClasses() {
+        return numClasses;
+    }
+
+    public void setNumClasses(int numClasses) {
+        Calculos.numClasses = numClasses;
+    }
+
+    public double getIntervalo() {
+        return intervalo;
+    }
+
+    public void setIntervalo(double intervalo) {
+        Calculos.intervalo = intervalo;
+    }
+
+    public double[] getFrequencias() {
+        return frequencias;
+    }
+
+    public void setFrequencias(double[] frequencias) {
+        Calculos.frequencias = frequencias;
+    }
+
+    public double[] getFrequenciasAcumuladas() {
+        return frequenciasAcumuladas;
+    }
+
+    public void setFrequenciasAcumuladas(double[] frequenciasAcumuladas) {
+        Calculos.frequenciasAcumuladas = frequenciasAcumuladas;
+    }
+
+    public double[] getFrequenciaAbsoluta() {
+        return frequenciaAbsoluta;
+    }
+
+    public void setFrequenciaAbsoluta(double[] frequenciaAbsoluta) {
+        Calculos.frequenciaAbsoluta = frequenciaAbsoluta;
+    }
+
+    public double[] getFrequenciaAbsolutaAcumulada() {
+        return frequenciaAbsolutaAcumulada;
+    }
+
+    public void setFrequenciaAbsolutaAcumulada(double[] frequenciaAbsolutaAcumulada) {
+        Calculos.frequenciaAbsolutaAcumulada = frequenciaAbsolutaAcumulada;
+    }
+
+    public double[] getMediaClasses() {
+        return mediaClasses;
+    }
+
+    public void setMediaClasses(double[] mediaClasses) {
+        Calculos.mediaClasses = mediaClasses;
     }
 
 }
